@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    /* Basic Options */
+    "target": "ESNext",                       /* Compila para a versão mais recente do ECMAScript. */
+    "module": "ESNext",                       /* Usa o sistema de módulos ECMAScript. */
+    "rootDir": "./src",                       /* Define o diretório raiz dos arquivos de origem. */
+    "outDir": "./dist",                       /* Especifica a pasta de saída dos arquivos compilados. */
+    "moduleResolution": "node",               /* Usa a resolução de módulos padrão do Node.js. */
+    
+    /* Interoperability Options */
+    "esModuleInterop": true,                  /* Suporte melhorado para CommonJS e ESModules. */
+    "skipLibCheck": true,                     /* Pula a checagem de arquivos de definição de tipo. */
+    "forceConsistentCasingInFileNames": true, /* Garante consistência de nomes de arquivos. */
+
+    /* Strict Type-Checking Options */
+    "strict": true                            /* Ativa verificações rigorosas de tipos. */
+  },
+  "include": ["src/**/*.ts"],                 /* Inclui todos os arquivos .ts dentro da pasta src. */
+  "exclude": ["node_modules", "dist"]         /* Exclui pastas que não precisam ser compiladas. */
+}
