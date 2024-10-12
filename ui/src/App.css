@@ -21,6 +21,7 @@
   padding: 1rem;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   color: #ffffff;
 }
 
@@ -55,12 +56,17 @@
   margin-right: 0.5rem;
 }
 
+.auth-section {
+  margin-top: auto;
+  padding-top: 1rem;
+}
+
 .content {
   flex: 1;
   display: flex;
   flex-direction: column;
   padding: 1.5rem;
-  background-color: #a3b1cf;
+  background-color: #e0e7ff;
 }
 
 .content-header {

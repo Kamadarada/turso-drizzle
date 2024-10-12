@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Table, Button, Space, Popconfirm } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import {
@@ -7,8 +7,16 @@ import {
 	FileTextOutlined,
 	TeamOutlined,
 	SettingOutlined,
+	LoginOutlined,
 } from "@ant-design/icons";
+import {
+	SignedIn,
+	SignedOut,
+	SignInButton,
+	UserButton,
+} from "@clerk/clerk-react";
 import "./App.css";
+import { useUser } from "./contexts/UserContext";
 
 interface User {
 	id: string;
@@ -18,13 +26,11 @@ interface User {
 }
 
 function App() {
-	const [users, setUsers] = useState<User[]>([]);
+	const { users, fetchUsers, loading } = useUser();
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
-		fetch("http://localhost:3000/users")
-			.then((response) => response.json())
-			.then((data) => setUsers(data))
-			.catch((error) => console.error("Erro ao buscar usuários:", error));
+		fetchUsers();
 	}, []);
 
 	const columns: ColumnsType<User> = [
@@ -54,12 +60,12 @@ function App() {
 			key: "actions",
 			render: (_, record) => (
 				<Space size="middle">
-					<Button type="link" onClick={() => console.log("Editado")}>
+					<Button type="link" onClick={() => console.log("Editar usuário")}>
 						Editar
 					</Button>
 					<Popconfirm
 						title="Tem certeza que deseja deletar este usuário?"
-						onConfirm={() => console.log("Deletado")}
+						onConfirm={() => console.log("Deletar usuário")}
 						okText="Sim"
 						cancelText="Não"
 					>
@@ -94,21 +100,39 @@ function App() {
 						<SettingOutlined /> Settings
 					</a>
 				</nav>
+				<div className="auth-section">
+					<SignedOut>
+						<SignInButton mode="modal">
+							<Button type="link" className="nav-item">
+								<LoginOutlined /> Sign in
+							</Button>
+						</SignInButton>
+					</SignedOut>
+					<SignedIn>
+						<UserButton />
+					</SignedIn>
+				</div>
 			</aside>
 			<main className="content">
 				<header className="content-header">
 					<h1>Usuários</h1>
-					<Button type="primary" style={{ backgroundColor: "#1890ff" }}>
-						+ Novo usuário
+					<Button
+						type="primary"
+						style={{ backgroundColor: "#1890ff" }}
+						onClick={fetchUsers}
+						loading={loading}
+					>
+						Atualizar Usuários
 					</Button>
 				</header>
 				<div className="table-container">
-					<Table
+					<Table<User>
 						dataSource={users}
 						columns={columns}
 						rowKey="id"
 						pagination={{ pageSize: 5 }}
 						bordered
+						loading={loading}
 					/>
 				</div>
 			</main>
@@ -117,4 +141,3 @@ function App() {
 }
 
 export default App;
-
